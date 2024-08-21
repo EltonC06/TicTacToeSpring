@@ -73,9 +73,9 @@ public class TicTacToe {
 	}
 
 	private void resetGame() {
-		this.setFirstLine("###");
-		this.setSecondLine("###");
-		this.setThirdLine("###");
+		this.setFirstLine("123");
+		this.setSecondLine("456");
+		this.setThirdLine("789");
 		this.setIsRunning(false);
 	}
 

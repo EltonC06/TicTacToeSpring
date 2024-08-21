@@ -34,21 +34,28 @@ public class TicTacToeController {
 		return ResponseEntity.ok().body(ticTacToe);
 	}
 	
+	/*
 	@PostMapping
 	public void saveGame(@RequestBody TicTacToe ticTacToe) {
 		service.save(ticTacToe);
 	}
-	
+	*/
 	
 	@PostMapping("/play")
-	public void create() {
+	public ResponseEntity<TicTacToe> create() {
 		TicTacToe game = service.create();
-		service.save(game);
+		return ResponseEntity.ok().body(game);
 	}
 	
-	@PutMapping("{id}/play/{space}")
-	public void makeMove(@PathVariable(name = "id") Long id, @PathVariable(name = "space") Integer space) {
-		service.playTurn(id, space);
+	@PutMapping("/play/{space}")
+	public TicTacToe makeMove(@PathVariable(name = "space") Integer space) {
+		return service.makeMove(space);
+	
+	}
+	
+	@PutMapping("/restart")
+	public void restart() {
+		service.restart();
 	}
 
 }
