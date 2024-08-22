@@ -25,7 +25,7 @@ public class TicTacToe {
 		this.firstLine = "123";
 		this.secondLine = "456";
 		this.thirdLine = "789";
-		this.isRunning = false;
+		this.isRunning = true;
 	}
 	
 	public Long getId() {
