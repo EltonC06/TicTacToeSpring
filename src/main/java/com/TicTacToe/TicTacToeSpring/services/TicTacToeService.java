@@ -9,6 +9,11 @@ import org.springframework.stereotype.Service;
 import com.TicTacToe.TicTacToeSpring.DTOs.TicTacToeDTO;
 import com.TicTacToe.TicTacToeSpring.entities.TicTacToe;
 import com.TicTacToe.TicTacToeSpring.repositories.TicTacToeRepository;
+import com.TicTacToe.TicTacToeSpring.services.exceptions.GameAlreadyCreated;
+import com.TicTacToe.TicTacToeSpring.services.exceptions.GameNotCreatedException;
+import com.TicTacToe.TicTacToeSpring.services.exceptions.GameNotRunningException;
+import com.TicTacToe.TicTacToeSpring.services.exceptions.OccupiedSpaceException;
+import com.TicTacToe.TicTacToeSpring.services.exceptions.SpaceNotFoundException;
 
 @Service
 public class TicTacToeService {
@@ -22,8 +27,12 @@ public class TicTacToeService {
 	}
 	
 	public TicTacToeDTO getById(Long id) {
-		TicTacToe game = repository.findById(id).get();
-		return convertToDTO(game);
+		if (repository.existsById(id)) {
+			TicTacToe game = repository.findById(id).get();
+			return convertToDTO(game);
+		} else {
+			throw new GameNotCreatedException();
+		}
 	}
 	
 	private TicTacToeDTO convertToDTO(TicTacToe game) {
@@ -50,10 +59,8 @@ public class TicTacToeService {
 	}
 
 	public TicTacToe create() {
-		if (repository.findAll().size() > 0) {
-			TicTacToe ticTacToe = repository.findById(1L).get();
-			System.out.println("Jogo ja criado");
-			return ticTacToe; // aí vai salvar duplamente
+		if (repository.existsById(1L)) {
+			throw new GameAlreadyCreated();
 		} else {
 			TicTacToe ticTacToe = new TicTacToe();
 			this.save(ticTacToe);
@@ -64,64 +71,64 @@ public class TicTacToeService {
 	}
 	
 	public TicTacToe makeMove(Integer place) {
+		if (!repository.existsById(1L)) {
+			throw new GameNotCreatedException();
+		}
 		
-		if (place < 1 || place > 9) { // swap
-			System.out.println("Erro aqui (espaço inexistente)");
-			return null;
+		TicTacToe entityGame = repository.findById(1L).get();
+		if (!entityGame.getIsRunning()) {
+			throw new GameNotRunningException();
 		}
-		else {
-			TicTacToe entityGame = repository.findById(1L).get();
-			if (!entityGame.getIsRunning()) {
-				System.out.println("Erro aqui (jogo já encerrado)");
-				return null;
-			}
-			
-			TicTacToeDTO game = convertToDTO(entityGame);
-			
-			
-			
-			ArrayList<Integer> occupedSpaces = getOccupedSpaces(game);
-			if (!occupedSpaces.isEmpty()) {
-				for (int i = 0; i < occupedSpaces.size(); i++) {
-					if (place == occupedSpaces.get(i)) {
-						System.out.println("Erro aqui (espaço já ocupado)");
-						return null;
-					}
-				}
-			}
-			
-			
-			boolean isFinished = false;
-			Integer moves = countMoves(game);
-			
-			if (moves % 2 == 0) { // par
-				System.out.println("X jogou");
-				game.setEntireGame(game.getEntireGame().replace(place.toString().charAt(0), 'X'));
-				
-				// ganhou?
-				if (horizontalFinder('X', convertToEntity(game)) || verticalFinder('X', convertToEntity(game)) || diagonalFinder('X', convertToEntity(game)) ) {
-					isFinished = true;
-					System.out.println("X ganhou o jogo");
-				}
-			}
-			else { // impar
-				System.out.println("O jogou");
-				game.setEntireGame(game.getEntireGame().replace(place.toString().charAt(0), 'O'));
-				
-				// ganhou?
-				if (horizontalFinder('O', convertToEntity(game)) || verticalFinder('O', convertToEntity(game)) || diagonalFinder('O', convertToEntity(game)) ) {
-					isFinished = true;
-					System.out.println("O ganhou o jogo");
-				}
-			}
-			
-			return this.update(1L, game, isFinished);
-			
-			// salvar
+		
+		if (place < 1 || place > 9) {
+			throw new SpaceNotFoundException();
 		}
+				
+		TicTacToeDTO game = convertToDTO(entityGame);
+			
+		ArrayList<Integer> occupedSpaces = getOccupiedSpaces(game);
+		if (!occupedSpaces.isEmpty()) {
+			for (int i = 0; i < occupedSpaces.size(); i++) {
+				if (place == occupedSpaces.get(i)) {
+					throw new OccupiedSpaceException();
+				}
+			}
+		}
+		
+		boolean isFinished = false;
+		Integer moves = countMoves(game);
+		
+		if (moves == 8) { // o proximo passo sempre será o 9
+			isFinished = true;
+		}
+		
+		if (moves % 2 == 0) { // par
+			System.out.println("X jogou");
+			game.setEntireGame(game.getEntireGame().replace(place.toString().charAt(0), 'X'));
+			
+			// ganhou?
+			if (horizontalFinder('X', convertToEntity(game)) || verticalFinder('X', convertToEntity(game)) || diagonalFinder('X', convertToEntity(game)) ) {
+				isFinished = true;
+				System.out.println("X ganhou o jogo");
+			}
+		}
+		else { // impar
+			System.out.println("O jogou");
+			game.setEntireGame(game.getEntireGame().replace(place.toString().charAt(0), 'O'));
+			
+			// ganhou?
+			if (horizontalFinder('O', convertToEntity(game)) || verticalFinder('O', convertToEntity(game)) || diagonalFinder('O', convertToEntity(game)) ) {
+				isFinished = true;
+				System.out.println("O ganhou o jogo");
+			}
+		}
+		
+		return this.update(1L, game, isFinished);
+		
+		// salvar
 	}
 	
-	private ArrayList<Integer> getOccupedSpaces(TicTacToeDTO game) {
+	private ArrayList<Integer> getOccupiedSpaces(TicTacToeDTO game) {
 		ArrayList<Integer> occupedSpaces = new ArrayList<>();
 		
 		for (int i = 0; i<game.getEntireGame().length(); i++) {
@@ -135,16 +142,18 @@ public class TicTacToeService {
 	}
 
 	public void restart() {
-		// não pode resetar sem ter criado nenhum jogo
-		TicTacToe game = repository.getReferenceById(1L);
-		
-		game.setFirstLine("123");
-		game.setSecondLine("456");
-		game.setThirdLine("789");
-		game.setIsRunning(true);
-		repository.save(game);
-		
-		System.out.println("Jogo resetado, pode jogar dnv");
+		if (repository.existsById(1L)) {
+			TicTacToe game = repository.getReferenceById(1L);
+			
+			game.setFirstLine("123");
+			game.setSecondLine("456");
+			game.setThirdLine("789");
+			game.setIsRunning(true);
+			repository.save(game);
+		} else {
+			throw new GameNotCreatedException();
+		}
+
 	}
 	
 	
@@ -182,6 +191,7 @@ public class TicTacToeService {
 	// há 8 maneiras distintas de ganhar
 	// toda vez que uma jogada for feita, o codigo vai procurar por todos esses padrões
 	private boolean diagonalFinder(char element, TicTacToe game) {
+		
 		// diagonal esquerda pra direita
 		if (game.getFirstLine().charAt(0) == element) {
 			if (game.getSecondLine().charAt(1) == element) {
@@ -199,14 +209,12 @@ public class TicTacToeService {
 				}
 			}
 		}
-		
 		return false;
 	}
 	
 	private boolean horizontalFinder(char element, TicTacToe game) {
 		
 		// primeira linha
-
 		if (game.getFirstLine().charAt(0) == element) {
 			if (game.getFirstLine().charAt(1) == element) {
 				if (game.getFirstLine().charAt(2) == element) {
@@ -216,7 +224,6 @@ public class TicTacToeService {
 		}
 		
 		// segunda linha
-		
 		if (game.getSecondLine().charAt(0) == element) {
 			if (game.getSecondLine().charAt(1) == element) {
 				if (game.getSecondLine().charAt(2) == element) {
@@ -226,7 +233,6 @@ public class TicTacToeService {
 		}
 
 		// terceira linha
-		
 		if (game.getThirdLine().charAt(0) == element) {
 			if (game.getThirdLine().charAt(1) == element) {
 				if (game.getThirdLine().charAt(2) == element) {
@@ -234,7 +240,6 @@ public class TicTacToeService {
 				} 
 			}
 		}
-		
 		return false;
 	}
 	
@@ -249,7 +254,6 @@ public class TicTacToeService {
 				}
 			}
 		}
-		
 		return false;
 	}
 }

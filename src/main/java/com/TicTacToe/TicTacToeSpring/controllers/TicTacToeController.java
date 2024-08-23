@@ -33,13 +33,6 @@ public class TicTacToeController {
 		return ResponseEntity.ok().body(ticTacToe);
 	}
 	
-	/*
-	@PostMapping
-	public void saveGame(@RequestBody TicTacToe ticTacToe) {
-		service.save(ticTacToe);
-	}
-	*/
-	
 	@PostMapping("/play")
 	public ResponseEntity<TicTacToe> create() {
 		TicTacToe game = service.create();
