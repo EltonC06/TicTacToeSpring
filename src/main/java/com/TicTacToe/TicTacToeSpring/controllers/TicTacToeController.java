@@ -39,10 +39,9 @@ public class TicTacToeController {
 		return ResponseEntity.ok().body(game);
 	}
 	
-	@PutMapping("/play/{space}")
-	public TicTacToe makeMove(@PathVariable(name = "space") Integer space) {
-		return service.makeMove(space);
-	
+	@PutMapping("/play/{position}")
+	public TicTacToe makeMove(@PathVariable(name = "position") Integer position) {
+		return service.makeMove(position);
 	}
 	
 	@PutMapping("/restart")

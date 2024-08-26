@@ -6,5 +6,4 @@ public class GameNotCreatedException extends RuntimeException {
 	public GameNotCreatedException() {
 		super("Game not created yet");
 	}
-	
 }

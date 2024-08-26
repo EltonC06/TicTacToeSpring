@@ -11,8 +11,8 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import com.TicTacToe.TicTacToeSpring.services.exceptions.GameAlreadyCreated;
 import com.TicTacToe.TicTacToeSpring.services.exceptions.GameNotCreatedException;
 import com.TicTacToe.TicTacToeSpring.services.exceptions.GameNotRunningException;
-import com.TicTacToe.TicTacToeSpring.services.exceptions.OccupiedSpaceException;
-import com.TicTacToe.TicTacToeSpring.services.exceptions.SpaceNotFoundException;
+import com.TicTacToe.TicTacToeSpring.services.exceptions.OccupiedPositionException;
+import com.TicTacToe.TicTacToeSpring.services.exceptions.PositionNotFoundException;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -21,7 +21,7 @@ public class GameExceptionHandler extends ResponseEntityExceptionHandler {
 	
 	@ExceptionHandler(GameNotCreatedException.class)
 	public ResponseEntity<Object> handleGameNotFound(GameNotCreatedException exception, HttpServletRequest request) {
-		String error = "Game not found";
+		String error = "Game finding error";
 		HttpStatus status = HttpStatus.NOT_FOUND;
 		
 		StandardError err = new StandardError(Instant.now(), status.value(), error, exception.getMessage(), request.getRequestURI());
@@ -31,7 +31,7 @@ public class GameExceptionHandler extends ResponseEntityExceptionHandler {
 	
 	@ExceptionHandler(GameAlreadyCreated.class)
 	public ResponseEntity<Object> handleGameAlreadyCreated(GameAlreadyCreated exception, HttpServletRequest request) {
-		String error = "The game is already created";
+		String error = "Game creation error";
 		HttpStatus status = HttpStatus.CONFLICT;
 		
 		StandardError err = new StandardError(Instant.now(), status.value(), error, exception.getMessage(), request.getRequestURI());
@@ -41,7 +41,7 @@ public class GameExceptionHandler extends ResponseEntityExceptionHandler {
 	
 	@ExceptionHandler(GameNotRunningException.class)
 	public ResponseEntity<Object> handleGameNotRunning(GameNotRunningException exception, HttpServletRequest request) {
-		String error = "Game not running";
+		String error = "Game running error";
 		HttpStatus status = HttpStatus.BAD_REQUEST;
 		
 		StandardError err = new StandardError(Instant.now(), status.value(), error, exception.getMessage(), request.getRequestURI());
@@ -49,9 +49,9 @@ public class GameExceptionHandler extends ResponseEntityExceptionHandler {
 		return ResponseEntity.status(status).body(err);
 	}
 	
-	@ExceptionHandler(OccupiedSpaceException.class)
-	public ResponseEntity<Object> handleOccupiedSpace(OccupiedSpaceException exception, HttpServletRequest request) {
-		String error = "Space occupied";
+	@ExceptionHandler(OccupiedPositionException.class)
+	public ResponseEntity<Object> handleOccupiedPosition(OccupiedPositionException exception, HttpServletRequest request) {
+		String error = "Game position number error";
 		HttpStatus status = HttpStatus.CONFLICT;
 		
 		StandardError err = new StandardError(Instant.now(), status.value(), error, exception.getMessage(), request.getRequestURI());
@@ -59,14 +59,13 @@ public class GameExceptionHandler extends ResponseEntityExceptionHandler {
 		return ResponseEntity.status(status).body(err);
 	}
 	
-	@ExceptionHandler(SpaceNotFoundException.class)
-	public ResponseEntity<Object> handleSpaceNotFound(SpaceNotFoundException exception, HttpServletRequest request) {
-		String error = "Space not found";
+	@ExceptionHandler(PositionNotFoundException.class)
+	public ResponseEntity<Object> handlePositionNotFound(PositionNotFoundException exception, HttpServletRequest request) {
+		String error = "Game position number error";
 		HttpStatus status = HttpStatus.NOT_FOUND;
 		
 		StandardError err = new StandardError(Instant.now(), status.value(), error, exception.getMessage(), request.getRequestURI());
 		
 		return ResponseEntity.status(status).body(err);
 	}
-	
 }

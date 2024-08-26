@@ -20,7 +20,4 @@ public class TicTacToeDTO {
 	public void setEntireGame(String entireGame) {
 		this.entireGame = entireGame;
 	}
-	
-	
-	
 }

@@ -18,8 +18,6 @@ public class TicTacToe {
 	private String thirdLine;
 	private Boolean isRunning;
 	
-
-	// id gerado automaticamente
 	public TicTacToe() {
 		super();
 		this.firstLine = "123";
@@ -59,29 +57,8 @@ public class TicTacToe {
 	public Boolean getIsRunning() {
 		return isRunning;
 	}
+	
 	public void setIsRunning(Boolean isRunning) {
 		this.isRunning = isRunning;
 	}
-	public void startGame() {
-		if (isRunning) {
-			resetGame();
-		}
-		
-		this.setIsRunning(true);
-		
-		
-	}
-
-	private void resetGame() {
-		this.setFirstLine("123");
-		this.setSecondLine("456");
-		this.setThirdLine("789");
-		this.setIsRunning(false);
-	}
-
-
-	
-	
-	
-	
 }
