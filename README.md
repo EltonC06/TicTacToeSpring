@@ -1,6 +1,6 @@
 # Tic-Tac-Toe Spring
 
-(https://github.com/EltonC06/TicTacToeSpring/blob/main/LICENSE)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/EltonC06/TicTacToeSpring/blob/main/LICENSE)
 
 ## About the Project
 
