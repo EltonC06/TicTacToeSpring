@@ -90,7 +90,7 @@ public class TicTacToeService {
 		
 		Integer moves = countMoves(game);
 		
-		if (moves == 8) { // se for = 8, significa que essa nova jogada já será a 9ª
+		if (moves == 8) {
 			isFinished = true;
 		}
 		
@@ -164,7 +164,6 @@ public class TicTacToeService {
 	}
 	
 	private boolean diagonalVictoryFinder(char element, TicTacToe game) {
-		// diagonal esquerda pra direita
 		if (game.getFirstLine().charAt(0) == element) {
 			if (game.getSecondLine().charAt(1) == element) {
 				if (game.getThirdLine().charAt(2) == element) {
@@ -172,7 +171,7 @@ public class TicTacToeService {
 				}
 			}
 		}
-		// diagonal direita para esquerda
+		
 		if (game.getFirstLine().charAt(2) == element) {
 			if (game.getSecondLine().charAt(1) == element) {
 				if (game.getThirdLine().charAt(0) == element) {
@@ -184,7 +183,6 @@ public class TicTacToeService {
 	}
 	
 	private boolean horizontalVictoryFinder(char element, TicTacToe game) {
-		// primeira linha
 		if (game.getFirstLine().charAt(0) == element) {
 			if (game.getFirstLine().charAt(1) == element) {
 				if (game.getFirstLine().charAt(2) == element) {
@@ -192,7 +190,7 @@ public class TicTacToeService {
 				}
 			}
 		}
-		// segunda linha
+		
 		if (game.getSecondLine().charAt(0) == element) {
 			if (game.getSecondLine().charAt(1) == element) {
 				if (game.getSecondLine().charAt(2) == element) {
@@ -200,7 +198,7 @@ public class TicTacToeService {
 				}
 			}
 		}
-		// terceira linha
+		
 		if (game.getThirdLine().charAt(0) == element) {
 			if (game.getThirdLine().charAt(1) == element) {
 				if (game.getThirdLine().charAt(2) == element) {
@@ -212,7 +210,6 @@ public class TicTacToeService {
 	}
 	
 	private boolean verticalVictoryFinder(char element, TicTacToe game) {
-		// primeira, segunda e terceira coluna
 		for (int i = 0; i<3; i++) {
 			if (game.getFirstLine().charAt(i) == element) {
 				if (game.getSecondLine().charAt(i) == element) {
