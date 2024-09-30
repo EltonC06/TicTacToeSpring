@@ -52,6 +52,7 @@ public class TicTacToeService {
 			game.setSecondLine("456");
 			game.setThirdLine("789");
 			game.setIsRunning(true);
+			game.setRoundWinner(null);
 			
 			repository.save(game);
 		} else {
@@ -87,7 +88,7 @@ public class TicTacToeService {
 		}
 		
 		boolean isFinished = false;
-		
+
 		Integer moves = countMoves(game);
 		
 		if (moves == 8) {
@@ -98,15 +99,21 @@ public class TicTacToeService {
 			game.setEntireGame(game.getEntireGame().replace(place.toString().charAt(0), 'X'));
 			if (victoryCheck('X', game)) {
 				isFinished = true;
+				game.setRoundWinner("X");
 			}
 		}
 		else {
 			game.setEntireGame(game.getEntireGame().replace(place.toString().charAt(0), 'O'));
 			if (victoryCheck('O', game)) {
 				isFinished = true;
+				game.setRoundWinner("O");
 			}
 		}
 		
+		if (isFinished && !victoryCheck('X', game) && !victoryCheck('O', game)) {
+			game.setRoundWinner("D");
+		}
+
 		return this.update(1L, game, isFinished);
 	}
 	
@@ -144,13 +151,14 @@ public class TicTacToeService {
 		return this.repository.save(gameToUpdate);
 	}
 
-	private TicTacToe updateData(TicTacToe oldGame, TicTacToeDTO game, boolean isFinished) {
-		oldGame.setFirstLine(game.getEntireGame().substring(0, 3));
-		oldGame.setSecondLine(game.getEntireGame().substring(3, 6));
-		oldGame.setThirdLine(game.getEntireGame().substring(6, 9));
-		oldGame.setIsRunning(!isFinished);
+	private TicTacToe updateData(TicTacToe gameToUpdate, TicTacToeDTO game, boolean isFinished) {
+		gameToUpdate.setFirstLine(game.getEntireGame().substring(0, 3));
+		gameToUpdate.setSecondLine(game.getEntireGame().substring(3, 6));
+		gameToUpdate.setThirdLine(game.getEntireGame().substring(6, 9));
+		gameToUpdate.setIsRunning(!isFinished);
+		gameToUpdate.setRoundWinner(game.getRoundWinner());
 		
-		return oldGame;
+		return gameToUpdate;
 	}
 	
 	private boolean victoryCheck(char symbol, TicTacToeDTO gameDTO) {
@@ -226,6 +234,7 @@ public class TicTacToeService {
 		TicTacToeDTO convertedGame = new TicTacToeDTO();
 		
 		convertedGame.setEntireGame(game.getFirstLine() + "" + game.getSecondLine() + "" + game.getThirdLine());
+		convertedGame.setRoundWinner(game.getRoundWinner());
 		
 		return convertedGame;
 	}
@@ -237,6 +246,7 @@ public class TicTacToeService {
 		convertedGame.setSecondLine(game.getEntireGame().substring(3, 6));
 		convertedGame.setThirdLine(game.getEntireGame().substring(6, 9));
 		convertedGame.setIsRunning(true);
+		convertedGame.setRoundWinner(game.getRoundWinner());
 		
 		return convertedGame;
 	}

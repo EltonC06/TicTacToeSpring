@@ -17,6 +17,7 @@ public class TicTacToe {
 	private String secondLine;
 	private String thirdLine;
 	private Boolean isRunning;
+	private String roundWinner;
 	
 	public TicTacToe() {
 		super();
@@ -24,6 +25,7 @@ public class TicTacToe {
 		this.secondLine = "456";
 		this.thirdLine = "789";
 		this.isRunning = true;
+		this.roundWinner = null;
 	}
 	
 	public Long getId() {
@@ -60,5 +62,13 @@ public class TicTacToe {
 	
 	public void setIsRunning(Boolean isRunning) {
 		this.isRunning = isRunning;
+	}
+
+	public String getRoundWinner() {
+		return roundWinner;
+	}
+
+	public void setRoundWinner(String roundWinner) {
+		this.roundWinner = roundWinner;
 	}
 }
