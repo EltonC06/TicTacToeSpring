@@ -34,13 +34,7 @@ public class TicTacToeController {
 		TicTacToeDTO ticTacToe = service.getById(id);
 		return ResponseEntity.ok().body(ticTacToe);
 	}
-	
-	@PostMapping("/play")
-	public ResponseEntity<TicTacToe> create() {
-		TicTacToe game = service.create();
-		return ResponseEntity.ok().body(game);
-	}
-	
+
 	@PutMapping("/play/{position}")
 	public TicTacToe makeMove(@PathVariable(name = "position") Integer position) {
 		return service.makeMove(position);
