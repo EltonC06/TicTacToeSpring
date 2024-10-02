@@ -21,8 +21,13 @@ public class Match {
 	@OneToOne
 	private TicTacToe ticTacToe;
 	
+	
+	
 	public Match() {
-		
+		this.draws = 0;
+		this.xVictories = 0;
+		this.oVictories = 0;
+		this.round = 0;
 	}
 
 	public Match(Integer draws, Integer xVictories, Integer oVictories, Integer round) {
@@ -67,5 +72,13 @@ public class Match {
 
 	public void setRound(Integer round) {
 		this.round = round;
+	}
+
+	public TicTacToe getTicTacToe() {
+		return ticTacToe;
+	}
+
+	public void setTicTacToe(TicTacToe ticTacToe) {
+		this.ticTacToe = ticTacToe;
 	}
 }
