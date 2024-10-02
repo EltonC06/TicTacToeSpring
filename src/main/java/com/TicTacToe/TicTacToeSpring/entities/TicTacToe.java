@@ -4,6 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -18,6 +19,9 @@ public class TicTacToe {
 	private String thirdLine;
 	private Boolean isRunning;
 	private String roundWinner;
+	@OneToOne(mappedBy = "ticTacToe")
+	private Match match;
+	
 	
 	public TicTacToe() {
 		super();
