@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.TicTacToe.TicTacToeSpring.DTOs.TicTacToeDTO;
+import com.TicTacToe.TicTacToeSpring.entities.Match;
 import com.TicTacToe.TicTacToeSpring.entities.TicTacToe;
 import com.TicTacToe.TicTacToeSpring.repositories.TicTacToeRepository;
 import com.TicTacToe.TicTacToeSpring.services.exceptions.GameAlreadyCreated;
@@ -20,6 +21,9 @@ public class TicTacToeService {
 	
 	@Autowired
 	TicTacToeRepository repository;
+	
+	@Autowired
+	MatchService matchService;
 	
 	public List<TicTacToe> getAll() {
 		return repository.findAll();
@@ -65,6 +69,8 @@ public class TicTacToeService {
 			throw new GameNotCreatedException();
 		}
 		
+		Match match = matchService.getById(1L);
+		
 		TicTacToe entityGame = repository.findById(1L).get();
 		
 		if (!entityGame.getIsRunning()) {
@@ -100,6 +106,8 @@ public class TicTacToeService {
 			if (victoryCheck('X', game)) {
 				isFinished = true;
 				game.setRoundWinner("X");
+				match.setxVictories(match.getxVictories()+1);
+				match.setRoundsPlayed(match.getRoundsPlayed()+1);
 			}
 		}
 		else {
@@ -107,11 +115,15 @@ public class TicTacToeService {
 			if (victoryCheck('O', game)) {
 				isFinished = true;
 				game.setRoundWinner("O");
+				match.setoVictories(match.getoVictories()+1);
+				match.setRoundsPlayed(match.getRoundsPlayed()+1);
 			}
 		}
 		
 		if (isFinished && !victoryCheck('X', game) && !victoryCheck('O', game)) {
 			game.setRoundWinner("D");
+			match.setDraws(match.getDraws()+1);
+			match.setRoundsPlayed(match.getRoundsPlayed()+1);
 		}
 
 		return this.update(1L, game, isFinished);

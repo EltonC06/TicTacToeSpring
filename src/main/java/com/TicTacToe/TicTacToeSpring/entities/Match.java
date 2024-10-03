@@ -1,5 +1,6 @@
 package com.TicTacToe.TicTacToeSpring.entities;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -17,8 +18,8 @@ public class Match {
 	private Integer draws;
 	private Integer xVictories;
 	private Integer oVictories;
-	private Integer round;
-	@OneToOne
+	private Integer roundsPlayed;
+	@OneToOne(cascade = CascadeType.ALL)
 	private TicTacToe ticTacToe;
 	
 	
@@ -27,7 +28,7 @@ public class Match {
 		this.draws = 0;
 		this.xVictories = 0;
 		this.oVictories = 0;
-		this.round = 0;
+		this.roundsPlayed = 0;
 	}
 
 	public Match(Integer draws, Integer xVictories, Integer oVictories, Integer round) {
@@ -35,7 +36,7 @@ public class Match {
 		this.draws = draws;
 		this.xVictories = xVictories;
 		this.oVictories = oVictories;
-		this.round = round;
+		this.roundsPlayed = round;
 	}
 	
 	public Long getId() {
@@ -66,12 +67,12 @@ public class Match {
 		this.oVictories = oVictories;
 	}
 
-	public Integer getRound() {
-		return round;
+	public Integer getRoundsPlayed() {
+		return roundsPlayed;
 	}
 
-	public void setRound(Integer round) {
-		this.round = round;
+	public void setRoundsPlayed(Integer round) {
+		this.roundsPlayed = round;
 	}
 
 	public TicTacToe getTicTacToe() {

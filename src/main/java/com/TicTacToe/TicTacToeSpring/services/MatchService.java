@@ -13,15 +13,12 @@ public class MatchService {
 	@Autowired
 	MatchRepository matchRepository;
 	
-	@Autowired
-	TicTacToeService ticTacToeService;
-	
 	public Match getById(Long id) {
 		return matchRepository.findById(id).get();
 	}
 	
 	public Match create() {
-		TicTacToe ticTacToe = ticTacToeService.create();
+		TicTacToe ticTacToe = new TicTacToe();
 		Match match = new Match();
 		match.setTicTacToe(ticTacToe);
 		matchRepository.save(match);
@@ -33,7 +30,7 @@ public class MatchService {
 		matchToUpdate.setDraws(match.getDraws());
 		matchToUpdate.setoVictories(match.getoVictories());
 		matchToUpdate.setxVictories(match.getxVictories());
-		matchToUpdate.setRound(match.getRound());
+		matchToUpdate.setRoundsPlayed(match.getRoundsPlayed());
 		
 		return matchRepository.save(matchToUpdate);
 	}
@@ -43,7 +40,7 @@ public class MatchService {
 		match.setDraws(0);
 		match.setoVictories(0);
 		match.setxVictories(0);
-		match.setRound(0);
+		match.setRoundsPlayed(0);
 		match.setDraws(0);
 		matchRepository.save(match);
 		return match;
