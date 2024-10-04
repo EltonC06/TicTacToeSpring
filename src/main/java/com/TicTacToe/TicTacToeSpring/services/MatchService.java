@@ -7,6 +7,7 @@ import com.TicTacToe.TicTacToeSpring.entities.Match;
 import com.TicTacToe.TicTacToeSpring.entities.TicTacToe;
 import com.TicTacToe.TicTacToeSpring.repositories.MatchRepository;
 import com.TicTacToe.TicTacToeSpring.services.exceptions.MatchAlreadyCreatedException;
+import com.TicTacToe.TicTacToeSpring.services.exceptions.MatchNotCreatedException;
 
 @Service
 public class MatchService {
@@ -15,7 +16,11 @@ public class MatchService {
 	MatchRepository matchRepository;
 	
 	public Match getById(Long id) {
-		return matchRepository.findById(id).get();
+		if (!matchRepository.existsById(id)) {
+			throw new MatchNotCreatedException();
+		} else {
+			return matchRepository.findById(id).get();
+		}
 	}
 	
 	public Match create() {
@@ -40,13 +45,17 @@ public class MatchService {
 	}
 	
 	public Match reset() {
-		Match match = matchRepository.findById(1L).get();
-		match.setDraws(0);
-		match.setoVictories(0);
-		match.setxVictories(0);
-		match.setRoundsPlayed(0);
-		match.setDraws(0);
-		matchRepository.save(match);
-		return match;
+		if (!matchRepository.existsById(1L)) {
+			throw new MatchNotCreatedException();
+		} else {
+			Match match = matchRepository.findById(1L).get();
+			match.setDraws(0);
+			match.setoVictories(0);
+			match.setxVictories(0);
+			match.setRoundsPlayed(0);
+			match.setDraws(0);
+			matchRepository.save(match);
+			return match;
+		}
 	}
 }
