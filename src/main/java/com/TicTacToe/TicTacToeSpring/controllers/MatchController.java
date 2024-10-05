@@ -33,8 +33,8 @@ public class MatchController {
 		return ResponseEntity.ok().body(match);
 	}
 	
-	@PutMapping("/reset/{id}")
-	public ResponseEntity<Match> reset(@PathVariable Long id) {
+	@PutMapping("/reset")
+	public ResponseEntity<Match> reset() {
 		Match match = matchService.reset();
 		return ResponseEntity.ok().body(match);
 	}
