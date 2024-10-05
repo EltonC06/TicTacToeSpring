@@ -10,7 +10,7 @@ import com.TicTacToe.TicTacToeSpring.DTOs.TicTacToeDTO;
 import com.TicTacToe.TicTacToeSpring.entities.Match;
 import com.TicTacToe.TicTacToeSpring.entities.TicTacToe;
 import com.TicTacToe.TicTacToeSpring.repositories.TicTacToeRepository;
-import com.TicTacToe.TicTacToeSpring.services.exceptions.GameAlreadyCreated;
+import com.TicTacToe.TicTacToeSpring.services.exceptions.GameAlreadyCreatedException;
 import com.TicTacToe.TicTacToeSpring.services.exceptions.GameNotCreatedException;
 import com.TicTacToe.TicTacToeSpring.services.exceptions.GameNotRunningException;
 import com.TicTacToe.TicTacToeSpring.services.exceptions.OccupiedPositionException;
@@ -40,7 +40,7 @@ public class TicTacToeService {
 
 	public TicTacToe create() {
 		if (repository.existsById(1L)) {
-			throw new GameAlreadyCreated();
+			throw new GameAlreadyCreatedException();
 		} else {
 			TicTacToe ticTacToe = new TicTacToe();
 			this.save(ticTacToe);

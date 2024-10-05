@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import com.TicTacToe.TicTacToeSpring.services.exceptions.GameAlreadyCreated;
+import com.TicTacToe.TicTacToeSpring.services.exceptions.GameAlreadyCreatedException;
 import com.TicTacToe.TicTacToeSpring.services.exceptions.GameNotCreatedException;
 import com.TicTacToe.TicTacToeSpring.services.exceptions.GameNotRunningException;
 import com.TicTacToe.TicTacToeSpring.services.exceptions.MatchAlreadyCreatedException;
@@ -31,8 +31,8 @@ public class GameExceptionHandler extends ResponseEntityExceptionHandler {
 		return ResponseEntity.status(status).body(err);
 	}
 	
-	@ExceptionHandler(GameAlreadyCreated.class)
-	public ResponseEntity<Object> handleGameAlreadyCreated(GameAlreadyCreated exception, HttpServletRequest request) {
+	@ExceptionHandler(GameAlreadyCreatedException.class)
+	public ResponseEntity<Object> handleGameAlreadyCreated(GameAlreadyCreatedException exception, HttpServletRequest request) {
 		String error = "Game creation error";
 		HttpStatus status = HttpStatus.CONFLICT;
 		
