@@ -29,10 +29,10 @@ public class TicTacToeService {
 		return repository.findAll();
 	}
 	
-	public TicTacToeDTO getById(Long id) {
+	public TicTacToe getById(Long id) {
 		if (repository.existsById(id)) {
 			TicTacToe game = repository.findById(id).get();
-			return convertToDTO(game);
+			return game;
 		} else {
 			throw new GameNotCreatedException();
 		}
