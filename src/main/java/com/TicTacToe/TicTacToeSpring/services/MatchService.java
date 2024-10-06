@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import com.TicTacToe.TicTacToeSpring.entities.Match;
 import com.TicTacToe.TicTacToeSpring.entities.TicTacToe;
 import com.TicTacToe.TicTacToeSpring.repositories.MatchRepository;
+import com.TicTacToe.TicTacToeSpring.repositories.TicTacToeRepository;
 import com.TicTacToe.TicTacToeSpring.services.exceptions.MatchAlreadyCreatedException;
 import com.TicTacToe.TicTacToeSpring.services.exceptions.MatchNotCreatedException;
 
@@ -14,6 +15,9 @@ public class MatchService {
 	
 	@Autowired
 	MatchRepository matchRepository;
+	
+	@Autowired
+	TicTacToeRepository ticTacToeRepository;
 	
 	public Match getById(Long id) {
 		if (!matchRepository.existsById(id)) {
@@ -49,6 +53,16 @@ public class MatchService {
 			throw new MatchNotCreatedException();
 		} else {
 			Match match = matchRepository.findById(1L).get();
+			if (ticTacToeRepository.existsById(1L)) {
+				TicTacToe game = ticTacToeRepository.findById(1L).get();
+				game.setFirstLine("123");
+				game.setSecondLine("456");
+				game.setThirdLine("789");
+				game.setIsRunning(true);
+				game.setRoundWinner(null);
+			}
+			
+			
 			match.setDraws(0);
 			match.setoVictories(0);
 			match.setxVictories(0);
