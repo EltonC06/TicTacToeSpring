@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.TicTacToe.TicTacToeSpring.DTOs.TicTacToeDTO;
 import com.TicTacToe.TicTacToeSpring.entities.TicTacToe;
 import com.TicTacToe.TicTacToeSpring.services.TicTacToeService;
 
@@ -29,8 +28,8 @@ public class TicTacToeController {
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<TicTacToeDTO> getById(@PathVariable(name = "id") Long id) {
-		TicTacToeDTO ticTacToe = service.getById(id);
+	public ResponseEntity<TicTacToe> getById(@PathVariable(name = "id") Long id) {
+		TicTacToe ticTacToe = service.getById(id);
 		return ResponseEntity.ok().body(ticTacToe);
 	}
 
