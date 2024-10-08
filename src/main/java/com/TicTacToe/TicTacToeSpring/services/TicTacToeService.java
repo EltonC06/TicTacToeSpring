@@ -43,7 +43,7 @@ public class TicTacToeService {
 		}
 	}
 	
-	public void restart() {
+	public TicTacToe restart() {
 		if (repository.existsById(1L)) {
 			TicTacToe game = repository.getReferenceById(1L);
 			
@@ -53,7 +53,7 @@ public class TicTacToeService {
 			game.setIsRunning(true);
 			game.setRoundWinner(null);
 			
-			repository.save(game);
+			return repository.save(game);
 		} else {
 			throw new GameNotCreatedException();
 		}

@@ -32,7 +32,8 @@ public class TicTacToeController {
 	}
 	
 	@PutMapping("/restart")
-	public void restart() {
-		service.restart();
+	public ResponseEntity<TicTacToe> restart() {
+		TicTacToe ticTacToe = service.restart();
+		return ResponseEntity.ok().body(ticTacToe);
 	}
 }
