@@ -1,7 +1,6 @@
 package com.TicTacToe.TicTacToeSpring.services;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,10 +23,6 @@ public class TicTacToeService {
 	
 	@Autowired
 	MatchService matchService;
-	
-	public List<TicTacToe> getAll() {
-		return repository.findAll();
-	}
 	
 	public TicTacToe getById(Long id) {
 		if (repository.existsById(id)) {

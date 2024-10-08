@@ -1,7 +1,5 @@
 package com.TicTacToe.TicTacToeSpring.controllers;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -21,11 +19,6 @@ public class TicTacToeController {
 	
 	@Autowired
 	TicTacToeService service;
-	
-	@GetMapping
-	public List<TicTacToe> getGames() {
-		return service.getAll();
-	}
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<TicTacToe> getById(@PathVariable(name = "id") Long id) {
