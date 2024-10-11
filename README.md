@@ -6,13 +6,24 @@
 
 Tic-Tac-Toe Spring is a Java Spring Boot web application developed for educational purposes.
 
-The main function of the application is to allow users to play a Tic-Tac-Toe game locally on the same computer using HTTP requests. Currently, the app does not include a front-end interface, having only the back-end functionality.
+The main function of the application is to allow users to play a Tic-Tac-Toe game locally on the same computer using HTTP requests. The application features a front-end interface that interacts with the back-end API, providing a user-friendly experience for players.
+
+## Front-End Repository
+
+For the front-end of the Tic-Tac-Toe game, you can find the repository here:
+
+[Tic-Tac-Toe Front End Repository](https://github.com/EltonC06/TicTacToe-frontend)
 
 ## Technologies Used
 
 ### Back End
 - Java (Spring Boot)
 - H2 Database
+
+### Front End
+- JavaScript
+- HTML
+- CSS
 
 ## How to Run the Project
 
@@ -102,12 +113,11 @@ Here are the main endpoints available for interacting with the application:
 
 ## Observations
 
-- The application is designed for local play and does not yet feature a front-end interface.
-- The game state and moves are managed entirely through the API (HTTP Requests).
+- The application is designed for local play and features a front-end interface that interacts with the back-end API.
+- The game state and moves are managed entirely through the HTTP requests between the front-end and back-end.
 
 ## How You Can Contribute
 
-- Implement a front-end interface for user interaction.
 - Enhance the game logic and add additional features, such as improving the match statistics and tracking multiple games.
 
 ## Author
