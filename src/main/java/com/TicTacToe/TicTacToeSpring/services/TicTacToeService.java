@@ -9,7 +9,6 @@ import com.TicTacToe.TicTacToeSpring.DTOs.TicTacToeDTO;
 import com.TicTacToe.TicTacToeSpring.entities.Match;
 import com.TicTacToe.TicTacToeSpring.entities.TicTacToe;
 import com.TicTacToe.TicTacToeSpring.repositories.TicTacToeRepository;
-import com.TicTacToe.TicTacToeSpring.services.exceptions.GameAlreadyCreatedException;
 import com.TicTacToe.TicTacToeSpring.services.exceptions.GameNotCreatedException;
 import com.TicTacToe.TicTacToeSpring.services.exceptions.GameNotRunningException;
 import com.TicTacToe.TicTacToeSpring.services.exceptions.OccupiedPositionException;
@@ -24,9 +23,10 @@ public class TicTacToeService {
 	@Autowired
 	MatchService matchService;
 	
-	public TicTacToe getById(Long id) {
-		if (repository.existsById(id)) {
-			TicTacToe game = repository.findById(id).get();
+	public TicTacToe getById(Long matchId) {
+		if (matchService.matchRepository.existsById(matchId)) {
+			Match match = matchService.getById(matchId);
+			TicTacToe game = repository.findById(match.getTicTacToe().getId()).get();
 			return game;
 		} else {
 			throw new GameNotCreatedException();
@@ -34,18 +34,15 @@ public class TicTacToeService {
 	}
 
 	public TicTacToe create() {
-		if (repository.existsById(1L)) {
-			throw new GameAlreadyCreatedException();
-		} else {
-			TicTacToe ticTacToe = new TicTacToe();
-			this.save(ticTacToe);
-			return ticTacToe;
-		}
+		TicTacToe ticTacToe = new TicTacToe();
+		this.save(ticTacToe);
+		return ticTacToe;
 	}
 	
-	public TicTacToe restart() {
-		if (repository.existsById(1L)) {
-			TicTacToe game = repository.getReferenceById(1L);
+	public TicTacToe restart(Long matchId) {
+		if (matchService.matchRepository.existsById(matchId)) {
+			Match match = matchService.matchRepository.findById(matchId).get();
+			TicTacToe game = this.getById(match.getTicTacToe().getId());
 			
 			game.setFirstLine("123");
 			game.setSecondLine("456");
@@ -59,14 +56,13 @@ public class TicTacToeService {
 		}
 	}
 	
-	public TicTacToe makeMove(Integer place) {
-		if (!repository.existsById(1L)) {
+	public TicTacToe makeMove(Long matchId, Integer place) {
+		if (!repository.existsById(matchId)) {
 			throw new GameNotCreatedException();
 		}
 		
-		Match match = matchService.getById(1L);
-		
-		TicTacToe entityGame = repository.findById(1L).get();
+		Match match = matchService.getById(matchId);
+		TicTacToe entityGame = this.getById(match.getTicTacToe().getId());
 		
 		if (!entityGame.getIsRunning()) {
 			throw new GameNotRunningException();
@@ -121,7 +117,7 @@ public class TicTacToeService {
 			match.setRoundsPlayed(match.getRoundsPlayed()+1);
 		}
 
-		return this.update(1L, game, isFinished);
+		return this.update(matchId, game, isFinished);
 	}
 	
 	private ArrayList<Integer> getOccupiedSpaces(TicTacToeDTO game) {

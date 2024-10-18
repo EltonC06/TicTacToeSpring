@@ -44,21 +44,19 @@ public class MatchService {
 		return matchRepository.save(matchToUpdate);
 	}
 	
-	public Match reset() {
-		if (!matchRepository.existsById(1L)) {
+	public Match reset(Long id) {
+		if (!matchRepository.existsById(id)) {
 			throw new MatchNotCreatedException();
 		} else {
-			Match match = matchRepository.findById(1L).get();
-			if (ticTacToeRepository.existsById(1L)) {
-				TicTacToe game = ticTacToeRepository.findById(1L).get();
+			Match match = matchRepository.findById(id).get();
+			if (ticTacToeRepository.existsById(match.getTicTacToe().getId())) {
+				TicTacToe game = ticTacToeRepository.findById(id).get();
 				game.setFirstLine("123");
 				game.setSecondLine("456");
 				game.setThirdLine("789");
 				game.setIsRunning(true);
 				game.setRoundWinner(null);
 			}
-			
-			
 			match.setDraws(0);
 			match.setoVictories(0);
 			match.setxVictories(0);

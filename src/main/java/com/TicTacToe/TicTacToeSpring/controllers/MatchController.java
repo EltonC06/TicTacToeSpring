@@ -22,7 +22,7 @@ public class MatchController {
 	MatchService matchService;
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<Match> getById(@PathVariable(value = "id") Long id) {
+	public ResponseEntity<Match> getById(@PathVariable(name = "id") Long id) {
 		Match match = matchService.getById(id);
 		return ResponseEntity.ok().body(match);
 	}
@@ -33,9 +33,9 @@ public class MatchController {
 		return ResponseEntity.ok().body(match);
 	}
 	
-	@PutMapping("/reset")
-	public ResponseEntity<Match> reset() {
-		Match match = matchService.reset();
+	@PutMapping("/reset/{id}")
+	public ResponseEntity<Match> reset(@PathVariable(name = "id") Long id) {
+		Match match = matchService.reset(id);
 		return ResponseEntity.ok().body(match);
 	}
 }

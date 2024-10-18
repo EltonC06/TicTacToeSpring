@@ -20,20 +20,20 @@ public class TicTacToeController {
 	@Autowired
 	TicTacToeService service;
 	
-	@GetMapping("/{id}")
-	public ResponseEntity<TicTacToe> getById(@PathVariable(name = "id") Long id) {
-		TicTacToe ticTacToe = service.getById(id);
+	@GetMapping("/{matchId}")
+	public ResponseEntity<TicTacToe> getById(@PathVariable(name = "matchId") Long matchId) {
+		TicTacToe ticTacToe = service.getById(matchId);
 		return ResponseEntity.ok().body(ticTacToe);
 	}
 
-	@PutMapping("/play/{position}")
-	public TicTacToe makeMove(@PathVariable(name = "position") Integer position) {
-		return service.makeMove(position);
+	@PutMapping("/play/{matchId}/{position}")
+	public TicTacToe makeMove(@PathVariable(name = "matchId") Long matchId, @PathVariable(name = "position") Integer position) {
+		return service.makeMove(matchId, position);
 	}
 	
-	@PutMapping("/restart")
-	public ResponseEntity<TicTacToe> restart() {
-		TicTacToe ticTacToe = service.restart();
+	@PutMapping("/restart/{matchId}")
+	public ResponseEntity<TicTacToe> restart(@PathVariable(name = "matchId") Long matchId) {
+		TicTacToe ticTacToe = service.restart(matchId);
 		return ResponseEntity.ok().body(ticTacToe);
 	}
 }
