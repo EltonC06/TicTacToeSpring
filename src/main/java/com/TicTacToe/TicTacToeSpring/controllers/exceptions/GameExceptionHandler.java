@@ -11,7 +11,6 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import com.TicTacToe.TicTacToeSpring.services.exceptions.GameAlreadyCreatedException;
 import com.TicTacToe.TicTacToeSpring.services.exceptions.GameNotCreatedException;
 import com.TicTacToe.TicTacToeSpring.services.exceptions.GameNotRunningException;
-import com.TicTacToe.TicTacToeSpring.services.exceptions.MatchAlreadyCreatedException;
 import com.TicTacToe.TicTacToeSpring.services.exceptions.MatchNotCreatedException;
 import com.TicTacToe.TicTacToeSpring.services.exceptions.OccupiedPositionException;
 import com.TicTacToe.TicTacToeSpring.services.exceptions.PositionNotFoundException;
@@ -65,16 +64,6 @@ public class GameExceptionHandler extends ResponseEntityExceptionHandler {
 	public ResponseEntity<Object> handlePositionNotFound(PositionNotFoundException exception, HttpServletRequest request) {
 		String error = "Game position number error";
 		HttpStatus status = HttpStatus.NOT_FOUND;
-		
-		StandardError err = new StandardError(Instant.now(), status.value(), error, exception.getMessage(), request.getRequestURI());
-		
-		return ResponseEntity.status(status).body(err);
-	}
-	
-	@ExceptionHandler(MatchAlreadyCreatedException.class)
-	public ResponseEntity<Object> handleMatchAlreadyCreated(MatchAlreadyCreatedException exception, HttpServletRequest request) {
-		String error = "Match creation error";
-		HttpStatus status = HttpStatus.CONFLICT;
 		
 		StandardError err = new StandardError(Instant.now(), status.value(), error, exception.getMessage(), request.getRequestURI());
 		

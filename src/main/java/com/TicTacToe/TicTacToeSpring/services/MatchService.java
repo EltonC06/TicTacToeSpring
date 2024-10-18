@@ -7,7 +7,6 @@ import com.TicTacToe.TicTacToeSpring.entities.Match;
 import com.TicTacToe.TicTacToeSpring.entities.TicTacToe;
 import com.TicTacToe.TicTacToeSpring.repositories.MatchRepository;
 import com.TicTacToe.TicTacToeSpring.repositories.TicTacToeRepository;
-import com.TicTacToe.TicTacToeSpring.services.exceptions.MatchAlreadyCreatedException;
 import com.TicTacToe.TicTacToeSpring.services.exceptions.MatchNotCreatedException;
 
 @Service
@@ -28,9 +27,6 @@ public class MatchService {
 	}
 	
 	public Match create() {
-		if (matchRepository.existsById(1L)) {
-			throw new MatchAlreadyCreatedException();
-		}
 		TicTacToe ticTacToe = new TicTacToe();
 		Match match = new Match();
 		match.setTicTacToe(ticTacToe);
