@@ -11,6 +11,7 @@ import com.TicTacToe.TicTacToeSpring.entities.TicTacToe;
 import com.TicTacToe.TicTacToeSpring.repositories.TicTacToeRepository;
 import com.TicTacToe.TicTacToeSpring.services.exceptions.GameNotCreatedException;
 import com.TicTacToe.TicTacToeSpring.services.exceptions.GameNotRunningException;
+import com.TicTacToe.TicTacToeSpring.services.exceptions.MatchNotCreatedException;
 import com.TicTacToe.TicTacToeSpring.services.exceptions.OccupiedPositionException;
 import com.TicTacToe.TicTacToeSpring.services.exceptions.PositionNotFoundException;
 
@@ -26,10 +27,10 @@ public class TicTacToeService {
 	public TicTacToe getById(Long matchId) {
 		if (matchService.matchRepository.existsById(matchId)) {
 			Match match = matchService.getById(matchId);
-			TicTacToe game = repository.findById(match.getTicTacToe().getId()).get();
+			TicTacToe game = repository.findById(match.getTicTacToe().getId()).orElseThrow(GameNotCreatedException::new);
 			return game;
 		} else {
-			throw new GameNotCreatedException();
+			throw new MatchNotCreatedException();
 		}
 	}
 
@@ -41,8 +42,7 @@ public class TicTacToeService {
 	
 	public TicTacToe restart(Long matchId) {
 		if (matchService.matchRepository.existsById(matchId)) {
-			Match match = matchService.matchRepository.findById(matchId).get();
-			TicTacToe game = this.getById(match.getTicTacToe().getId());
+			TicTacToe game = this.getById(matchId);
 			
 			game.setFirstLine("123");
 			game.setSecondLine("456");
@@ -62,7 +62,7 @@ public class TicTacToeService {
 		}
 		
 		Match match = matchService.getById(matchId);
-		TicTacToe entityGame = this.getById(match.getTicTacToe().getId());
+		TicTacToe entityGame = this.getById(matchId);
 		
 		if (!entityGame.getIsRunning()) {
 			throw new GameNotRunningException();
@@ -147,7 +147,7 @@ public class TicTacToeService {
 	}
 
 	private TicTacToe update(Long id, TicTacToeDTO game, boolean isFinished) {
-		TicTacToe gameToUpdate = repository.findById(id).get();
+		TicTacToe gameToUpdate = repository.findById(id).orElseThrow(GameNotCreatedException::new);
 		
 		gameToUpdate = updateData(gameToUpdate, game, isFinished);
 		

@@ -35,7 +35,7 @@ public class MatchService {
 	}
 	
 	public Match updade(Long id, Match match) {
-		Match matchToUpdate = matchRepository.findById(id).get();
+		Match matchToUpdate = matchRepository.findById(id).orElseThrow(MatchNotCreatedException::new);
 		matchToUpdate.setDraws(match.getDraws());
 		matchToUpdate.setoVictories(match.getoVictories());
 		matchToUpdate.setxVictories(match.getxVictories());
