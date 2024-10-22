@@ -10,7 +10,6 @@ C:\Users\eltin\OneDrive\Documentos\workspaces\ws-sts\TicTacToeSpring\src\main\ja
 C:\Users\eltin\OneDrive\Documentos\workspaces\ws-sts\TicTacToeSpring\src\main\java\com\TicTacToe\TicTacToeSpring\services\exceptions\GameAlreadyCreatedException.java
 C:\Users\eltin\OneDrive\Documentos\workspaces\ws-sts\TicTacToeSpring\src\main\java\com\TicTacToe\TicTacToeSpring\services\exceptions\GameNotCreatedException.java
 C:\Users\eltin\OneDrive\Documentos\workspaces\ws-sts\TicTacToeSpring\src\main\java\com\TicTacToe\TicTacToeSpring\services\exceptions\GameNotRunningException.java
-C:\Users\eltin\OneDrive\Documentos\workspaces\ws-sts\TicTacToeSpring\src\main\java\com\TicTacToe\TicTacToeSpring\services\exceptions\MatchAlreadyCreatedException.java
 C:\Users\eltin\OneDrive\Documentos\workspaces\ws-sts\TicTacToeSpring\src\main\java\com\TicTacToe\TicTacToeSpring\services\exceptions\MatchNotCreatedException.java
 C:\Users\eltin\OneDrive\Documentos\workspaces\ws-sts\TicTacToeSpring\src\main\java\com\TicTacToe\TicTacToeSpring\services\exceptions\OccupiedPositionException.java
 C:\Users\eltin\OneDrive\Documentos\workspaces\ws-sts\TicTacToeSpring\src\main\java\com\TicTacToe\TicTacToeSpring\services\exceptions\PositionNotFoundException.java

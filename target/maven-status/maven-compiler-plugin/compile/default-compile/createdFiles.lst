@@ -4,7 +4,6 @@ com\TicTacToe\TicTacToeSpring\entities\Match.class
 com\TicTacToe\TicTacToeSpring\repositories\MatchRepository.class
 com\TicTacToe\TicTacToeSpring\controllers\MatchController.class
 com\TicTacToe\TicTacToeSpring\DTOs\TicTacToeDTO.class
-com\TicTacToe\TicTacToeSpring\services\exceptions\MatchAlreadyCreatedException.class
 com\TicTacToe\TicTacToeSpring\TicTacToeSpringApplication.class
 com\TicTacToe\TicTacToeSpring\services\exceptions\MatchNotCreatedException.class
 com\TicTacToe\TicTacToeSpring\services\exceptions\GameAlreadyCreatedException.class
