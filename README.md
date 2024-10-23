@@ -18,7 +18,7 @@ For the front-end of the Tic-Tac-Toe game, you can find the repository here:
 
 ### Back End
 - Java (Spring Boot)
-- H2 Database
+- MySQL
 
 ### Front End
 - JavaScript
@@ -41,14 +41,14 @@ For the front-end of the Tic-Tac-Toe game, you can find the repository here:
 2. **Open the Project**
    - Open the project in a Java IDE with Spring Boot support (Spring Tool Suite is recommended).
 
-3. **Set Up the Database**
-   - H2 database configuration is included by default. No additional setup is required for local development.
+3. **Configure the Database**
+   - To set up your MySQL database, navigate to `src/main/resources/application.properties` and enter your datasource URL, username and password.
 
 4. **Run the Application**
    - In your IDE, click to run the application.
 
 5. **Testing the Application**
-   - Since the application does not have a front-end interface, use an HTTP client like **Postman** to interact with the API endpoints.
+   - You can use an HTTP client like **Postman** to interact with the API endpoints.
 
 ## Project Structure
 
@@ -81,24 +81,24 @@ Here are the main endpoints available for interacting with the application:
 
 - **Get Game**
   - **Method:** `GET`
-  - **URL:** `localhost:8080/games/1`
-  - **Description:** Returns the current Tic-Tac-Toe game.
+  - **URL:** `<host>:<port>/games/{matchId}`
+  - **Description:** Returns the current Tic-Tac-Toe game. Replace <host> and <port> with your application's host and port. (default: localhost:8080)
 
 - **Make Move**
   - **Method:** `PUT`
-  - **URL:** `localhost:8080/games/play/{position}`
+  - **URL:** `localhost:8080/games/play/{matchId}/{position}`
   - **Description:** Makes a move and places the piece on the given position. The turn alternates automatically between 'X' and 'O'.
 
 - **Restart Game**
   - **Method:** `PUT`
-  - **URL:** `localhost:8080/games/restart`
+  - **URL:** `localhost:8080/games/restart/{matchId}`
   - **Description:** Resets the current game, allowing you to play again without creating a new match.
 
 ### Match Endpoints
 
 - **Get Match**
   - **Method:** `GET`
-  - **URL:** `localhost:8080/match/1`
+  - **URL:** `localhost:8080/match/{matchId}`
   - **Description:** Retrieves the current match details, including the round statistics and linked TicTacToe game.
 
 - **Create Match**
@@ -108,11 +108,12 @@ Here are the main endpoints available for interacting with the application:
 
 - **Reset Match**
   - **Method:** `PUT`
-  - **URL:** `localhost:8080/match/reset`
+  - **URL:** `localhost:8080/match/reset/{matchId}`
   - **Description:** Resets the match, clearing the counters for victories, draws, and rounds, and resets the linked TicTacToe game.
 
 ## Observations
 
+- The Match Id is returned in response when a Match is created.
 - The application is designed for local play and features a front-end interface that interacts with the back-end API.
 - The game state and moves are managed entirely through the HTTP requests between the front-end and back-end.
 
